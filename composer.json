@@ -1,0 +1,37 @@
+{
+    "name": "memio/php-printer",
+    "license": "MIT",
+    "type": "library",
+    "description": "Pretty Printer for PHP Parser, powered by templates",
+    "keywords": ["generator", "PHP", "templating", "code"],
+    "homepage": "http://memio.github.io/PHP-Printer",
+    "authors": [
+        {
+            "name": "Loïc Faugeron",
+            "email": "faugeron.loic@gmail.com",
+            "homepage": "http://gnugat.github.io",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Memio\\PhpPrinter\\": "src/Memio/PhpPrinter"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "tests\\Memio\\PhpPrinter\\": "tests"
+        }
+    },
+    "require": {
+        "nikic/php-parser": "^3.0@beta",
+        "php": "^7.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^1.6",
+        "memio/spec-gen": "^0.7",
+        "phpspec/phpspec": "^3.0",
+        "phpunit/phpunit": "^5.4"
+    },
+    "minimum-stability": "alpha"
+}

@@ -1,0 +1,21 @@
+language: php
+
+sudo: false
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+php:
+    - 7.0
+    - hhvm
+
+matrix:
+    allow_failures:
+        - php: hhvm
+
+before_script:
+    - composer selfupdate
+
+script:
+    - bin/test.sh

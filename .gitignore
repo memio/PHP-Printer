@@ -1,0 +1,9 @@
+# Third party
+/composer.lock
+/vendor
+/phpunit.xml
+/phpspec.yml
+/.couscous
+
+# Temporary files
+/.php_cs.cache
