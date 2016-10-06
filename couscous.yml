@@ -1,7 +1,7 @@
 template:
     url: https://github.com/CouscousPHP/Template-Light.git
 
-baseUrl: http://memio.github.io/PHP-Printer
+baseUrl: https://memio.github.io/PHP-Printer
 
 title: Memio PHP Printer
 subTitle: Pretty Printer for PHP Parser, powered by templates
