@@ -14,8 +14,9 @@ The versioning is inspired by [Semantic Versioning](http://semver.org/):
 
 ### Public API
 
-Classes and methods marked with the `@api` tag are considered to be the public
-API of this project.
+Classes, interfaces and traits, with their public attributes, constants and
+methods defined in the root of the project namespace (`Memio\PhpPrinter`) are
+considered to be the public API of this project.
 
 ## Branching Model
 
