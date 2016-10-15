@@ -17,16 +17,18 @@ class ComposedSimplaRule implements SimplaRule
 {
     private $simplaRules = [];
 
-    public function add(SimplaRule $simplaRule, int $priority)
+    public function add(SimplaRule $simplaRule, int $priority = 0)
     {
-        $this->simplaRules[$priority] = $simplaRule;
+        $this->simplaRules[$priority][] = $simplaRule;
         krsort($this->simplaRules);
     }
 
     public function apply(string $template, array $parameters = []) : string
     {
-        foreach ($this->simplaRules as $simplaRule) {
-            $template = $simplaRule->apply($template, $parameters);
+        foreach ($this->simplaRules as $simplaRules) {
+            foreach ($simplaRules as $simplaRule) {
+                $template = $simplaRule->apply($template, $parameters);
+            }
         }
 
         return $template;
