@@ -13,6 +13,7 @@ namespace Memio\PhpPrinter;
 
 use Memio\PhpPrinter\Simpla\Filesystem\FileGetContentsSimplaFilesystem;
 use Memio\PhpPrinter\Simpla\Rule\ComposedSimplaRule;
+use Memio\PhpPrinter\Simpla\Rule\PlaceholderSimplaRule;
 use Memio\PhpPrinter\Simpla\SimplaTemplateCollection;
 use Memio\PhpPrinter\Simpla\SimplaTemplatingEngine;
 
@@ -26,6 +27,7 @@ class Build
     {
         if (null === $this->composedSimplaRule) {
             $this->composedSimplaRule = new ComposedSimplaRule();
+            $this->composedSimplaRule->add(new PlaceholderSimplaRule());
         }
 
         return $this->composedSimplaRule;
