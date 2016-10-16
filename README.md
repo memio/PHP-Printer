@@ -21,14 +21,14 @@ we'd need is to create a template, and use it to overwrite the default one.
 
 PHP Printer just started, so there's nothing available yet. Here's the roadmap:
 
-* [ ] Create a Templating Engine
+* [x] Create a Templating Engine
       (an interface to allow third party implementations such as
       [Twig](http://twig.sensiolabs.org/),
       and a simple implementation since one of the drawback of Memio seemed to
       have been [its usage of Twig](https://github.com/memio/memio/issues/51))
 * [ ] Create a Pretty Printer
       (based on the strategy pattern to allow extension points,
-      and a start a templates: classes, interfaces, properties and method
+      and a start templates: classes, interfaces, properties and method
       signatures. See [Simpla RFC](https://github.com/memio/PHP-Printer/issues/1))
 
 We're going to use our experience with [Memio](http://memio.github.io/memio/)
@@ -36,6 +36,11 @@ to make PHP Printer the right tool for PHP code generation! At least that's
 what we aim for.
 
 ## Want to know more?
+
+Here's the documentation:
+
+* [Templating Engine](doc/50-templating-engine.html)
+* [Simpla Syntax Reference](doc/55-simpla-syntax-reference.html)
 
 You can see the current and past versions using one of the following:
 

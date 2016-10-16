@@ -15,3 +15,9 @@ menu:
         home:
             text: Home
             relativeUrl:
+        templating-engine:
+            text: Templating Engine
+            relativeUrl: doc/50-templating-engine.html
+        simpla-syntax-reference:
+            text: Simpla Syntax Reference
+            relativeUrl: doc/55-simpla-syntax-reference.html
