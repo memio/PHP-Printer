@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Memio PHP Printer</title>
+
+        <link rel="stylesheet" href="https://memio.github.io/PHP-Printer/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://memio.github.io/PHP-Printer/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://memio.github.io/PHP-Printer/css/highlight.dark.css">
+        <link rel="stylesheet" href="https://memio.github.io/PHP-Printer/css/main.css">
+    </head>
+    <body>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <a class="navbar-brand" href="https://memio.github.io/PHP-Printer/">
+                Memio PHP Printer
+                <small class="hidden-xs hidden-sm">
+                    Pretty Printer for PHP Parser, powered by templates
+                </small>
+            </a>
+
+                            <a href="https://github.com/memio/PHP-Printer">
+                    <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+                </a>
+            
+        </header>
+
+        <main class="container-fluid">
+            <div class="row">
+
+                
+                    <nav id="sidebar" class="col-sm-3 col-lg-2" role="navigation">
+
+                        <ul class="nav nav-pills nav-stacked">
+                                                            <li class="">
+                                    <a href="https://memio.github.io/PHP-Printer/">
+                                        Home
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://memio.github.io/PHP-Printer/doc/50-templating-engine.html">
+                                        Templating Engine
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://memio.github.io/PHP-Printer/doc/55-simpla-syntax-reference.html">
+                                        Simpla Syntax Reference
+                                    </a>
+                                </li>
+                                                    </ul>
+
+                    </nav>
+
+                
+                <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
+                    <h1 id="templating-engine">Templating Engine</h1>
+<p>This documentation is dedicated to PHP Printer's Templating Engine:</p>
+<ul>
+<li><a href="#why-a-templating-engine">Why a Templating Engine?</a></li>
+<li><a href="#how-to-use-simpla">How to use Simpla</a></li>
+</ul>
+<h2 id="why-a-templating-engine">Why a Templating Engine?</h2>
+<p>When it comes to coding style, everyone will have their own preferences and it's
+very hard to find one that fits all.</p>
+<p>Most Code Generator are written with their creator's coding style in mind, and
+trying to change the style can be quite tricky (for example having to extend
+a class and override its method).</p>
+<p>Using a Templating Engine solves this issue: the coding style is described in
+templates, in order to change the style we have to create a new template and use
+it instead of the provided one.</p>
+<p>But which Templating Engine should we use? <a href="http://twig.sensiolabs.org/">Twig</a>
+seems to be the most popular standalone one, and that's what Memio chose to use
+in past past. Surprisingly though,
+<a href="https://github.com/memio/memio/issues/51">some developers chose not to use Memio because of Twig</a>.
+This might be because in some legacy systems another templating engine is used
+(<a href="http://www.smarty.net/">Smarty</a> was a popular one at a time), or because some
+framework use their own Templating Engine (e.g.
+<a href="https://laravel.com/docs/5.3/blade">Laravel with Blade</a>).</p>
+<p>To solve this dilemna of choice, PHP Printer provides the following interface:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Memio\PhpPrinter;
+
+interface TemplatingEngine
+{
+    /**
+     * @throws TemplateNotFound
+     */
+    public function render(
+        string $templateName,
+        array $parameters = []
+    ) : string;
+}</code></pre>
+<p>Since it is an interface, we can create a Twig implementation, or a Smarty one,
+or a Blade one, or even our own custom plain PHP one. Implementations are
+required to work according to the following flow:</p>
+<ol>
+<li>get a template using the given name</li>
+<li>replace the template's placeholder by the values from the given parameters</li>
+<li>return the resulting string</li>
+</ol>
+<p>If no templates were found for the given name, a
+<code>Memio\PhpPrinter\TemplateNotFound</code> exception should be thrown.</p>
+<h2 id="how-to-use-simpla">How to use Simpla?</h2>
+<p>PHP Printer provides, out of the box, a plain PHP, custom made Templating Engine:
+Simpla. It's by no mean intended to be a full power Templating Engine like Twig,
+its purpose is to get you started quickly.</p>
+<p>Let's imagine we have the following template file in <code>/tmp/hello_world.tpl</code>:</p>
+<pre><code>Hello %world%!</code></pre>
+<p>Then we can use Simpla as follow:</p>
+<pre><code class="language-php">&lt;?php
+
+require __DIR__.'/vendor/autoload.php';
+
+use Memio\PhpPrinter\Build;
+
+$build = new Build();
+$simplaTemplateCollection = $build-&gt;simplaTemplateCollection();
+$simplaTemplateCollection-&gt;add('hello_world', '/tmp/hello_world.tpl');
+
+// Displays "Hello world!"
+echo $build-&gt;simplaTemplatingEngine()-&gt;render('hello_world', [
+    'name' =&gt; 'world'
+]);</code></pre>
+<p>As specified by the <code>TemplatingEngine</code> interface, <code>SimplaTemplatingEngine</code> works
+as follow:</p>
+<ol>
+<li>find the template path associated to the given template name,
+using <code>SimplaTemplateCollection</code></li>
+<li>get the template content,
+using <code>SimplaFilesystem</code> (not seen in the above example)</li>
+<li>replace the template's placeholders (e.g. <code>%name%</code>) by the values from the
+given parameters, using <code>SimplaRule</code> (not seen in the above example)</li>
+</ol>
+<p>Let's have a closer look at those 3 components.</p>
+<h3 id="simplatemplatecollection">SimplaTemplateCollection</h3>
+<p>Template paths can be registered in <code>SimplaTemplateCollection</code>, and can then be
+found by their name:</p>
+<pre><code class="language-php">$simplaTemplateCollection-&gt;add('hello_world', '/tmp/hello_world.tpl');
+
+// Displays "/tmp/hello_world.tpl"
+echo $simplaTemplateCollection-&gt;get('hello_world');</code></pre>
+<p>If the given name hasn't been registered, a <code>TemplateNotFound</code> exception is
+thrown:</p>
+<pre><code class="language-php">// Throws \Memio\PhpPrinter\TemplateNotFound
+$simplaTemplateCollection-&gt;get('hello_kitty');</code></pre>
+<p>In order to be able to override an existing template, all we need to do is to
+add the new path with the previously used name:</p>
+<pre><code class="language-php">$simplaTemplateCollection-&gt;add('hello_world', '/tmp/hello_world.tpl');
+$simplaTemplateCollection-&gt;add('hello_world', '/dev/null');
+
+// Displays "/dev/null"
+echo $simplaTemplateCollection-&gt;get('hello_world');</code></pre>
+<p>With the above example the latest addition will be used, but if we want to have
+more control then we can use the priority parameter:</p>
+<pre><code class="language-php">$simplaTemplateCollection-&gt;add('hello_world', '/tmp/hello_world.tpl', 42);
+$simplaTemplateCollection-&gt;add('hello_world', '/dev/null', 23);
+
+// Displays "/tmp/hello_world.tpl"
+echo $simplaTemplateCollection-&gt;get('hello_world');</code></pre>
+<p>By default priority is set to <code>0</code>. The path with the highest priority will be
+used (if two path are registered with the same name and the same priority, then
+the latest addition will be used).</p>
+<h3 id="simplafilesystem">SimplaFilesystem</h3>
+<p><code>SimplaFilesystem</code> is an interface responsible to retrieve the content of a given
+template. If it cannot do so (e.g. file doesn't exist, or permission error) then
+a <code>TemplateNotFound</code> exception should be thrown.</p>
+<p>When created with <code>Build</code>, <code>SimplaTemplatingEngine</code> will be using an
+implementation of <code>SimplaFilesystem</code> that relies on <code>file_get_contents</code>.
+If for some reason you need something else (e.g.
+<a href="https://flysystem.thephpleague.com/">Flysystem</a>), then you'll have to create
+your own implementation (and either override <code>Build</code>, or create &quot;manually&quot;
+<code>SimplaTemplatingEngine</code>).</p>
+<h3 id="simplarule">SimplaRule</h3>
+<p>The <code>SimpleRule</code> interface defines a method that accepts template and parameters,
+and returns a modified template: </p>
+<pre><code class="language-php">&lt;?php
+
+namespace Memio\PhpPrinter\Simpla;
+
+interface SimplaRule
+{
+    public function apply(string $template, array $parameters = []) : string;
+}</code></pre>
+<p>Out of the box, there are 2 implementations available:</p>
+<ul>
+<li><code>ComposedSimplaRule</code>: aggregates <code>SimplaRule</code> and applies all of them</li>
+<li><code>PlaceholderSimplaRule</code>: replaces <code>%placeholder%</code> in the given template with
+the value of the given paramaters named <code>placeholder</code></li>
+</ul>
+<p>With <code>ComposedSimplaRule</code>, <code>SimplaRule</code>s will be applied in the order they've
+been added. <code>Build</code> gives you access to it, so you can register your own
+<code>Simplarule</code>:</p>
+<pre><code class="language-php">$composedSimplaRule = $build-&gt;composedSimplaRule();
+$composedSimplaRule-&gt;add($customSimplaRule);
+
+// Will apply first PlaceholderSimplaRule and then your CustomSimplaRule
+$simplaTemplatingEngine-&gt;render('hello_world', [
+    'name' =&gt; 'world',
+])</code></pre>
+<p>Just like in <code>SimplaTemplateCollection</code>, <code>ComposedSimplaRule</code> relies on
+priorities to choose which <code>SimplaRule</code> will be executed first:</p>
+<pre><code class="language-php">$composedSimplaRule-&gt;add($willBeExecutedThird, 23);
+$composedSimplaRule-&gt;add($willBeExecutedFirst, 42);
+$composedSimplaRule-&gt;add($willBeExecutedSecond, 42);</code></pre>
+<p>By default the priority is <code>0</code>, if two <code>SimplaRule</code> have been added with the same
+priority, they will be executed in the order they've been added.</p>
+                </section>
+
+            </div>
+        </main>
+
+        <footer>
+            <div class="container-fluid">
+                <p class="text-muted">
+                    website generated with <a href="http://couscous.io" title="Markdown website generator">Couscous</a>
+                </p>
+            </div>
+        </footer>
+
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="//yastatic.net/highlightjs/8.2/highlight.min.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+                // Syntax highlighting
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+    </body>
+</html>

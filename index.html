@@ -40,6 +40,16 @@
                                         Home
                                     </a>
                                 </li>
+                                                            <li class="">
+                                    <a href="https://memio.github.io/PHP-Printer/doc/50-templating-engine.html">
+                                        Templating Engine
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://memio.github.io/PHP-Printer/doc/55-simpla-syntax-reference.html">
+                                        Simpla Syntax Reference
+                                    </a>
+                                </li>
                                                     </ul>
 
                     </nav>
@@ -64,20 +74,25 @@ we'd need is to create a template, and use it to overwrite the default one.</p>
 <h2 id="roadmap">Roadmap</h2>
 <p>PHP Printer just started, so there's nothing available yet. Here's the roadmap:</p>
 <ul>
-<li>[ ] Create a Templating Engine
+<li>[x] Create a Templating Engine
 (an interface to allow third party implementations such as
 <a href="http://twig.sensiolabs.org/">Twig</a>,
 and a simple implementation since one of the drawback of Memio seemed to
 have been <a href="https://github.com/memio/memio/issues/51">its usage of Twig</a>)</li>
 <li>[ ] Create a Pretty Printer
 (based on the strategy pattern to allow extension points,
-and a start a templates: classes, interfaces, properties and method
+and a start templates: classes, interfaces, properties and method
 signatures. See <a href="https://github.com/memio/PHP-Printer/issues/1">Simpla RFC</a>)</li>
 </ul>
 <p>We're going to use our experience with <a href="http://memio.github.io/memio/">Memio</a>
 to make PHP Printer the right tool for PHP code generation! At least that's
 what we aim for.</p>
 <h2 id="want-to-know-more">Want to know more?</h2>
+<p>Here's the documentation:</p>
+<ul>
+<li><a href="doc/50-templating-engine.html">Templating Engine</a></li>
+<li><a href="doc/55-simpla-syntax-reference.html">Simpla Syntax Reference</a></li>
+</ul>
 <p>You can see the current and past versions using one of the following:</p>
 <ul>
 <li>the <code>git tag</code> command</li>
