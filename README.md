@@ -1,4 +1,4 @@
-# PHP Printer
+# PHP Printer [![Build Status](https://travis-ci.org/memio/PHP-Printer.svg?branch=master)](https://travis-ci.org/memio/PHP-Printer)
 
 PHP Printer aims at providing a Pretty Printer powered by a templating engine,
 for [PHP Parser](https://github.com/nikic/PHP-Parser).
